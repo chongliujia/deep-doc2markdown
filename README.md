@@ -1,64 +1,131 @@
-# deep-doc2markdown
+# Deep Doc2Markdown
 
+A powerful document-to-markdown converter that extracts text and images from PDF, Word documents, and images, using OCR where needed, to generate clean Markdown output.
+
+## Features
+
+- Extract text and images from PDF and Word documents
+- Process standalone images with OCR
+- Use PaddleOCR for high-quality optical character recognition
+- Convert document structure to proper Markdown formatting
+- Modern web interface for uploading files and viewing results
+- Side-by-side view of original document and Markdown output
+
+## Project Structure
 
 ```
 document-to-markdown/
 │
 ├── app/
 │   ├── core/
-│   │   ├── document_extractor/      # 从文档中提取内容
-│   │   │   ├── pdf_extractor.py     # 从PDF提取文本和图片
-│   │   │   ├── docx_extractor.py    # 从Word提取文本和图片
-│   │   │   └── image_handler.py     # 处理单独上传的图片
+│   │   ├── document_extractor/      # Extract content from documents
+│   │   │   ├── pdf_extractor.py     # Extract text and images from PDF
+│   │   │   ├── docx_extractor.py    # Extract text and images from Word
+│   │   │   └── image_handler.py     # Process standalone images
 │   │   │
 │   │   ├── ocr/
-│   │   │   ├── paddle_ocr.py        # PaddleOCR实现
-│   │   │   └── ocr_processor.py     # OCR处理流程
+│   │   │   ├── paddle_ocr.py        # PaddleOCR implementation
+│   │   │   └── ocr_processor.py     # OCR processing workflow
 │   │   │
-│   │   ├── text_processor/          # 文本处理模块
-│   │   │   ├── text_cleaner.py      # 文本清洗
-│   │   │   └── text_merger.py       # 合并文档和OCR文本
+│   │   ├── text_processor/          # Text processing module
+│   │   │   ├── text_cleaner.py      # Text cleaning
+│   │   │   └── text_merger.py       # Merge document and OCR text
 │   │   │
-│   │   └── markdown_converter/      # Markdown转换模块
-│   │       ├── md_formatter.py      # 文本转Markdown
-│   │       ├── image_formatter.py   # 图片处理和生成Markdown图片语法
-│   │       └── structure_parser.py  # 解析文档结构(标题、列表等)
+│   │   └── markdown_converter/      # Markdown conversion module
+│   │       ├── md_formatter.py      # Text to Markdown conversion
+│   │       ├── image_formatter.py   # Image processing and Markdown syntax
+│   │       └── structure_parser.py  # Parse document structure
 │   │
-│   ├── media/                       # 存储处理过的图片
+│   ├── media/                       # Store processed images
 │   │   └── images/                  
 │   │
-│   ├── api/                         # API接口
-│   └── models/                      # 数据模型
+│   ├── api/                         # API endpoints
+│   │   ├── document_api.py          # Document processing API
+│   │   └── static_files.py          # Serve static files
+│   │
+│   ├── models/                      # Data models
+│   │   └── document_models.py       # Document data models
+│   │
+│   └── frontend/                    # Web interface
+│       ├── frontend_api.py          # Frontend API
+│       └── templates/               # HTML templates
+│           └── index.html           # Main app page
 │
-├── config/                          # 配置文件
-├── requirements.txt
-└── main.py
+├── config/                          # Configuration
+│   └── config.py                    # App configuration
+│
+├── requirements.txt                 # Dependencies
+└── main.py                          # Main application
 ```
 
-## 处理流程
+## Installation
 
-### 文档上传与解析:
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/deep-doc2markdown.git
+   cd deep-doc2markdown
+   ```
 
-1. 接收用户上传的文档(PDF、Word)或图片
-2. 提取文档中的文本内容，保留格式信息
-3. 从文档中提取图片并保存
+2. Create a virtual environment (optional but recommended):
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-### 图片处理:
+3. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-1. 将提取的图片保存到media/images目录
-2. 为每个图片生成唯一ID和访问URL
-3. 使用PaddleOCR进行图片内容识别
-4. 生成图片描述（基于OCR结果）
+4. Install PaddlePaddle:
+   
+   Depending on your system, you might need specific installation instructions for PaddlePaddle. Visit the [PaddlePaddle installation guide](https://www.paddlepaddle.org.cn/en/install/quick) for details.
 
-### Markdown转换:
+## Usage
 
-1. 将文本内容转换为Markdown格式
-2. 识别标题、列表、表格等结构并转换为对应Markdown语法
-3. 对于图片，生成![图片描述](图片URL)格式
-4. 保持文档的原始结构和层次
+1. Start the application:
+   ```
+   python main.py
+   ```
 
-### 结果输出:
+2. Open your browser and navigate to:
+   ```
+   http://127.0.0.1:8000
+   ```
 
-1. 提供完整的Markdown文档
-2. 图片链接可以是相对路径或完整URL
-3. 提供下载选项或API接口
+3. Use the web interface to upload your documents and convert them to Markdown.
+
+## API Endpoints
+
+- `POST /api/upload`: Upload a document for conversion
+- `GET /api/status/{doc_id}`: Check the status of a conversion job
+- `GET /api/markdown/{doc_id}`: Get the generated Markdown content
+
+## Development
+
+### Requirements
+
+- Python 3.8+
+- FastAPI
+- PyPDF2 for PDF processing
+- python-docx for Word document processing
+- PaddleOCR for image text recognition
+- Jinja2 for templating
+
+### Configuration
+
+Edit `config/config.py` to adjust settings:
+
+- Change the server host and port
+- Configure OCR settings
+- Modify file storage paths
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) for the OCR functionality
+- [FastAPI](https://fastapi.tiangolo.com/) for the web framework
+- [PyPDF2](https://pythonhosted.org/PyPDF2/) for PDF processing

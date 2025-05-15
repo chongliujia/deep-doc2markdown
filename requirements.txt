@@ -1,0 +1,31 @@
+# Core requirements
+fastapi==0.104.1
+uvicorn==0.23.2
+python-multipart==0.0.6
+pydantic==2.4.2
+
+# Document extraction
+PyPDF2==3.0.1
+python-docx==0.8.11
+pillow==10.0.1
+# PyMuPDF==1.18.19 # 移除以避免编译问题
+
+# OCR
+paddlepaddle==2.5.1
+# paddleocr==2.10.0 # 需要单独安装: pip install paddleocr==2.10.0 --no-deps
+
+# OCR 依赖
+scikit-image
+opencv-python
+pyclipper
+shapely
+imgaug
+rapidfuzz
+beautifulsoup4
+
+# Frontend
+jinja2==3.1.2
+
+# Utils
+numpy==1.25.2
+python-dotenv==1.0.0 
